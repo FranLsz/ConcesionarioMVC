@@ -1,19 +1,19 @@
 ﻿@model IEnumerable<Concesionario.Models.Tipo>
 
 @{
-    ViewBag.Title = "Listado de tipos";
+    ViewBag.Title = "Listado de vehiculos";
 }
 
 <h2>Tipos de vehículos</h2>
 
 
+
 @foreach (var t in Model)
 {
     <div class="box">
-        @t.id
-        
 
-        @Html.ActionLink(@t.nombre, "ListadoPorTipo","Vehiculo", new { id = t.id }, null)
+        @Html.ActionLink(@t.nombre, "ListadoPorTipo", "Vehiculo", new { id = t.id }, null)
+        <br /><br />
     </div>
 
 }

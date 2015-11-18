@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Concesionario.Models.Vehiculo>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.matricula)</th>
+            <th>@Html.DisplayNameFor(model => model.marca)</th>
+            <th>@Html.DisplayNameFor(model => model.modelo)</th>
+            <th>@Html.DisplayNameFor(model => model.coste)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="vBox">
+        @foreach (var v in Model)
+        {
+            <tr>
+                <td>@v.matricula</td>
+                <td>@v.marca</td>
+                <td>@v.modelo</td>
+                <td>@v.coste €</td>
+            </tr>
+        }
+    </tbody>
+
+</table>

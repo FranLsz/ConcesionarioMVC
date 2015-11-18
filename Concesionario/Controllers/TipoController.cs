@@ -17,6 +17,7 @@ namespace Concesionario.Controllers
             return View(db.Tipo);
         }
 
-        
+      
+
     }
 }

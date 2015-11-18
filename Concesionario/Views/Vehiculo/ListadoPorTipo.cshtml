@@ -1,38 +1,139 @@
 ﻿@model IEnumerable<Concesionario.Models.Vehiculo>
 
 @{
+
     ViewBag.Title = "title";
+    var idTipo = ViewBag.idTipo;
 }
 
+<style>
+    .addBox {
+        padding: 10px;
+        width: 100%;
+    }
+
+        .addBox input {
+            display: block;
+            margin: 20px auto;
+        }
+</style>
 <h2>Vehículos</h2>
 
+<h3>Buscador</h3>
+<select id="selectBuscar">
+    <option value="matricula">Matrícula</option>
+    <option value="marca">Marca</option>
+</select>
+<input type="text" id="txtBuscar" />
+<button id="btnBuscar">Buscar</button>
+<input type="hidden" value="@idTipo" id="hdnTipo" />
+<br /><br />
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    Nuevo vehículo
+</button>
+<div id="lista">
+    @Html.Partial("_listadoVehiculo", Model)
+</div>
 
 
 
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Matrícula</th>
-            <th>Marca</th>
-            <th>Modelo</th>
-            <th>Coste</th>
-            <th>Tipo</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var v in Model)
-        {
-            <tr>
-                <td>@v.id</td>
-                <td>@v.matricula</td>
-                <td>@v.marca</td>
-                <td>@v.modelo</td>
-                <td>@v.coste €</td>
-                <td>@v.tipo</td>
-            </tr>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Nuevo producto</h4>
+            </div>
+            <div class="modal-body">
+                <div class="addBox">
+                    <input type="text" id="txtMatricula" placeholder="Matrícula" />
+                    <input type="text" id="txtMarca" placeholder="Marca" />
+                    <input type="text" id="txtModelo" placeholder="Modelo" />
+                    <input type="text" id="txtCoste" placeholder="Coste" />
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnAdd" data-dismiss="modal">Añadir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section js
+{
+    <script>
+        /*function render(json) {
+            $("#vBox").html("");
+            var row = "";
+            $.each(json, function (i, item) {
+
+                 row += "<tr>";
+                 row += "<td>"+item.id+"</td>";
+                 row += "<td>"+item.matricula+"</td>";
+                 row += "<td>"+item.marca+"</td>";
+                 row += "<td>"+item.modelo+"</td>";
+                 row += "<td>"+item.coste+"</td>";
+                 row += "</tr>";
+
+            });
+            $("#vBox").html(row);
+        }*/
+
+        function buscar() {
+            var url = "@Url.Action("Buscar")";
+            var txt = $("#txtBuscar").val();
+            url += "?value=" + txt + "&filtro=" + $("#selectBuscar").val() + "&tipo=@idTipo";
+
+            $("#lista").load(url);
+            /*$.get(url, function (res) {
+                render(res);
+            });*/
         }
-    </tbody>
 
-</table>
+        $("#btnAdd").click(function () {
+            alta();
+        });
+
+        function alta() {
+
+            var data = {
+                matricula: $("#txtMatricula").val(),
+                modelo: $("#txtModelo").val(),
+                marca: $("#txtMarca").val(),
+                coste: $("#txtCoste").val(),
+                tipo: $("#hdnTipo").val()
+            };
+
+            var url = "@Url.Action("Alta")";
+            $.ajax({
+                url: url,
+                data: JSON.stringify(data),
+                type: "POST",
+                headers: { "Content-Type": "application/json" },
+                dataType: "json",
+                success: function (res) {
+                    $("#txtBuscar").val("");
+                    alert("Guardado");
+                    console.log(res);
+                }
+
+            });
+        }
+
+
+
+
+
+
+        $("#btnBuscar").click(function () {
+            buscar();
+        });
+
+
+    </script>
+}
