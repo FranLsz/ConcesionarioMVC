@@ -34,7 +34,6 @@ namespace Concesionario.Controllers
         }
         public ActionResult Buscar(string value, string filtro, int tipo)
         {
-            db.Configuration.LazyLoadingEnabled = false;
             switch (filtro)
             {
                 case "matricula":
@@ -49,7 +48,7 @@ namespace Concesionario.Controllers
                     return PartialView("_listadoVehiculo", data2);
 
                 default:
-                    return Json(db.Vehiculo, JsonRequestBehavior.AllowGet);
+                    return PartialView("_listadoVehiculo", db.Vehiculo);
             }
         }
     }
