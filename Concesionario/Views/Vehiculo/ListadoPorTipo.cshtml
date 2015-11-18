@@ -62,6 +62,29 @@
     </div>
 </div>
 
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Nuevo producto</h4>
+            </div>
+            <div class="modal-body">
+                <div class="addBox">
+                    <input class="form-control" type="text" id="txtEditMatricula" placeholder="Matrícula" />
+                    <input class="form-control" type="text" id="txtEditMarca" placeholder="Marca" />
+                    <input class="form-control" type="text" id="txtEditModelo" placeholder="Modelo" />
+                    <input class="form-control" type="text" id="txtEditCoste" placeholder="Coste" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnSaveEdit" data-dismiss="modal">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section js
 {
     <script>
@@ -73,9 +96,7 @@
             $("#lista").load(url);
         }
 
-        $("#btnAdd").click(function () {
-            alta();
-        });
+
 
         function alta() {
 
@@ -105,10 +126,58 @@
         }
 
 
+        function eliminar(id) {
+            var url = "@Url.Action("Eliminar")/" + id;
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (res) {
+                    $("#txtBuscar").val("");
+                    buscar();
+                    alert("Eliminado");
+                    console.log(res);
+                }
+
+            });
+
+        }
+
+        function renderEditar(vhc) {
+            $("#txtEditCoste").val(vhc.coste);
+            $("#txtEditMarca").val(vhc.marca);
+            $("#txtEditMatricula").val(vhc.matricula);
+            $("#txtEditModelo").val(vhc.modelo);
+        }
+
+
+        $("#btnAdd").click(function () {
+            alta();
+        });
+
         $("#btnBuscar").click(function () {
             buscar();
         });
 
+        $(".btnDelete").click(function () {
+            if (confirm("Está seguro?")) {
+
+                eliminar($(this).parent().parent().data("id"));
+
+            }
+        });
+
+        $(".btnEdit").click(function () {
+            var vhc = {
+                id: $(this).parent().parent().data("id"),
+                matricula: $(this).parent().parent().children().eq(0).text(),
+                marca: $(this).parent().parent().children().eq(1).text(),
+                modelo: $(this).parent().parent().children().eq(2).text(),
+                coste: $(this).parent().parent().children().eq(3).text()
+            };
+
+            renderEditar(vhc);
+        });
 
     </script>
 }

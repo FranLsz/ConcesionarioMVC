@@ -7,20 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
 namespace Concesionario.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class Vehiculo
     {
-        public int id { get; set; }
-        public string matricula { get; set; }
-        public string marca { get; set; }
-        public string modelo { get; set; }
-        public decimal coste { get; set; }
-        public int tipo { get; set; }
-    
         public virtual Tipo Tipo1 { get; set; }
     }
 }

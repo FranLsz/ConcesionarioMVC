@@ -9,17 +9,19 @@
             <th>@Html.DisplayNameFor(model => model.modelo)</th>
             <th>@Html.DisplayNameFor(model => model.coste)</th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody id="vBox">
         @foreach (var v in Model)
         {
-            <tr>
+            <tr data-id="@v.id">
                 <td>@v.matricula</td>
                 <td>@v.marca</td>
                 <td>@v.modelo</td>
                 <td>@v.coste €</td>
-                <td><button class="btn btn-danger">Borrar</button></td>
+                <td><button class="btn btn-success btnEdit" data-toggle="modal" data-target="#myModal2">Editar</button></td>
+                <td><button class="btn btn-danger btnDelete">Borrar</button></td>
             </tr>
         }
     </tbody>

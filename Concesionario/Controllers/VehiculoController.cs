@@ -51,5 +51,20 @@ namespace Concesionario.Controllers
                     return PartialView("_listadoVehiculo", db.Vehiculo);
             }
         }
+
+        public ActionResult Eliminar(int id)
+        {
+            var model = db.Vehiculo.FirstOrDefault(o => o.id == id);
+
+            if (model != null)
+            {
+                db.Vehiculo.Remove(model);
+                db.SaveChanges();
+                return Json(model, JsonRequestBehavior.AllowGet);
+            }
+
+            return HttpNotFound();
+
+        }
     }
 }
