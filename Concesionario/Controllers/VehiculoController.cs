@@ -12,10 +12,10 @@ namespace Concesionario.Controllers
         Concesionario15Entities db = new Concesionario15Entities();
 
         // GET: Vehiculo
-        public ActionResult Index()
+       /* public ActionResult Index()
         {
             return View();
-        }
+        }*/
 
 
         public ActionResult ListadoPorTipo(int id)
@@ -34,22 +34,17 @@ namespace Concesionario.Controllers
         }
         public ActionResult Buscar(string value, string filtro, int tipo)
         {
+            var data = db.Vehiculo.Where(o => o.tipo == tipo);
             switch (filtro)
             {
                 case "matricula":
-                    var data1 = db.Vehiculo.
-                        Where(o => o.tipo == tipo && o.matricula.Contains(value));
-                    return PartialView("_listadoVehiculo", data1);
-
+                    data = data.Where(o => o.matricula.Contains(value));
+                    break;
                 case "marca":
-
-                    var data2 = db.Vehiculo.
-                        Where(o => o.tipo == tipo && o.marca.Contains(value));
-                    return PartialView("_listadoVehiculo", data2);
-
-                default:
-                    return PartialView("_listadoVehiculo", db.Vehiculo);
+                    data = data.Where(o => o.marca.Contains(value));
+                    break;
             }
+            return PartialView("_listadoVehiculo", data);
         }
 
         public ActionResult Eliminar(int id)

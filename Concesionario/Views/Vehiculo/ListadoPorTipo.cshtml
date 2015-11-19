@@ -137,6 +137,7 @@
                     buscar();
                     alert("Eliminado");
                     console.log(res);
+
                 }
 
             });
@@ -159,11 +160,10 @@
             buscar();
         });
 
-        $(".btnDelete").click(function () {
+        //asignar evento dinamicamente para elementos ya creados y por crear
+        $("body").on("click", "button.btnDelete", function () {
             if (confirm("Está seguro?")) {
-
                 eliminar($(this).parent().parent().data("id"));
-
             }
         });
 
