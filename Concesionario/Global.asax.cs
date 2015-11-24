@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Concesionario.Seguridad;
 
 namespace Concesionario
 {
@@ -13,6 +14,19 @@ namespace Concesionario
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+        }
+
+        protected void Application_PostAuthenticateRequest(Object sender, EventArgs e)
+        {
+            if (Request.IsAuthenticated)
+            {
+                var identity = new IdentityPersonalizado(HttpContext.Current.User.Identity);
+
+                var principal = new PrincipalPersonalizado(identity);
+
+                //con esto nos aseguramos que el identity es el IdentityPersonalizado que contiene todos los datos
+                HttpContext.Current.User = principal;
+            }
         }
     }
 }

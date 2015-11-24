@@ -21,6 +21,7 @@ namespace Concesionario.Models
         public string apellidos { get; set; }
         public string imagen { get; set; }
         public Nullable<int> idRol { get; set; }
+        public string email { get; set; }
     
         public virtual Rol Rol { get; set; }
     }

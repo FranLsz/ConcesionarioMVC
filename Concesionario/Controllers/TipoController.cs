@@ -7,9 +7,10 @@ using Concesionario.Models;
 
 namespace Concesionario.Controllers
 {
+    [Authorize]
     public class TipoController : Controller
     {
-        Concesionario15Entities db = new Concesionario15Entities();
+        ConcesionarioEntities db = new ConcesionarioEntities();
 
         // GET: Tipo
         public ActionResult Index()

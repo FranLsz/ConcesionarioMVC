@@ -14,7 +14,7 @@ namespace Concesionario.Models
     
     public partial class Vehiculo
     {
-        
+       
     
         public virtual Tipo Tipo { get; set; }
     }

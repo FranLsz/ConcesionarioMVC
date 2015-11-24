@@ -7,9 +7,10 @@ using Concesionario.Models;
 
 namespace Concesionario.Controllers
 {
+    [Authorize]
     public class VehiculoController : Controller
     {
-        Concesionario15Entities db = new Concesionario15Entities();
+        ConcesionarioEntities db = new ConcesionarioEntities();
 
         // GET: Vehiculo
        /* public ActionResult Index()
@@ -21,7 +22,7 @@ namespace Concesionario.Controllers
         public ActionResult ListadoPorTipo(int id)
         {
             ViewBag.idTipo = id;
-            return View(db.Vehiculo.Where(o => o.tipo == id));
+            return View(db.Vehiculo.Where(o => o.idTipo == id));
         }
         [HttpPost]
         public ActionResult Alta(Vehiculo model)
@@ -34,7 +35,7 @@ namespace Concesionario.Controllers
         }
         public ActionResult Buscar(string value, string filtro, int tipo)
         {
-            var data = db.Vehiculo.Where(o => o.tipo == tipo);
+            var data = db.Vehiculo.Where(o => o.idTipo == tipo);
             switch (filtro)
             {
                 case "matricula":

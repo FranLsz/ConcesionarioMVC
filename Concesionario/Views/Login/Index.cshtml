@@ -1,0 +1,19 @@
+﻿@model Concesionario.Models.Usuario
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Login</h2>
+@using (Html.BeginForm())
+
+{
+    @Html.LabelFor(o => o.username);
+    @Html.TextAreaFor(o => o.username);
+    <br />
+    @Html.LabelFor(o => o.password);
+    @Html.TextAreaFor(o => o.password);
+
+    <input type="submit" value="Entrar" />
+}
+
