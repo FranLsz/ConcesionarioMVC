@@ -4,25 +4,57 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Concesionario15Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="concesionarioModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
         <EntityType Name="Tipo">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="nombre" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="500" Nullable="false" />
         </EntityType>
-        <EntityType Name="Vehiculo">
+        <EntityType Name="Usuario">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="matricula" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="marca" Type="varchar" MaxLength="200" Nullable="false" />
-          <Property Name="modelo" Type="varchar" MaxLength="200" Nullable="false" />
-          <Property Name="coste" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="tipo" Type="int" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="apellidos" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="imagen" Type="varchar" MaxLength="500" />
+          <Property Name="idRol" Type="int" />
         </EntityType>
+        <EntityType Name="Vehiculo">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="matricula" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="matricula" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="marca" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="modelo" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="coste" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="idTipo" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Usuario_Rol_id">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="idRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Vehiculo_Tipo_id">
           <End Role="Tipo" Type="Self.Tipo" Multiplicity="1" />
           <End Role="Vehiculo" Type="Self.Vehiculo" Multiplicity="*" />
@@ -31,13 +63,19 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Vehiculo">
-              <PropertyRef Name="tipo" />
+              <PropertyRef Name="idTipo" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Concesionario15ModelStoreContainer">
+        <EntityContainer Name="concesionarioModelStoreContainer">
+          <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tipo" EntityType="Self.Tipo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vehiculo" EntityType="Self.Vehiculo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Usuario_Rol_id" Association="Self.FK_Usuario_Rol_id">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
           <AssociationSet Name="FK_Vehiculo_Tipo_id" Association="Self.FK_Vehiculo_Tipo_id">
             <End Role="Tipo" EntitySet="Tipo" />
             <End Role="Vehiculo" EntitySet="Vehiculo" />
@@ -47,27 +85,61 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="Concesionario15Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="concesionarioModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Rol_id" FromRole="Rol" ToRole="Usuario" />
+        </EntityType>
         <EntityType Name="Tipo">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Vehiculo" Relationship="Self.FK_Vehiculo_Tipo_id" FromRole="Tipo" ToRole="Vehiculo" />
         </EntityType>
-        <EntityType Name="Vehiculo">
+        <EntityType Name="Usuario">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="matricula" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="marca" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="modelo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="coste" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="tipo" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Tipo1" Relationship="Self.FK_Vehiculo_Tipo_id" FromRole="Vehiculo" ToRole="Tipo" />
+          <Property Name="username" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apellidos" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="imagen" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="idRol" Type="Int32" />
+          <NavigationProperty Name="Rol" Relationship="Self.FK_Usuario_Rol_id" FromRole="Usuario" ToRole="Rol" />
         </EntityType>
+        <EntityType Name="Vehiculo">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="matricula" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="matricula" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="marca" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="modelo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="coste" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="idTipo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Tipo" Relationship="Self.FK_Vehiculo_Tipo_id" FromRole="Vehiculo" ToRole="Tipo" />
+        </EntityType>
+        <Association Name="FK_Usuario_Rol_id">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="idRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Vehiculo_Tipo_id">
           <End Role="Tipo" Type="Self.Tipo" Multiplicity="1" />
           <End Role="Vehiculo" Type="Self.Vehiculo" Multiplicity="*" />
@@ -76,13 +148,19 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Vehiculo">
-              <PropertyRef Name="tipo" />
+              <PropertyRef Name="idTipo" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Concesionario15Entities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="ConcesionarioEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Rol" EntityType="Self.Rol" />
           <EntitySet Name="Tipo" EntityType="Self.Tipo" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
           <EntitySet Name="Vehiculo" EntityType="Self.Vehiculo" />
+          <AssociationSet Name="FK_Usuario_Rol_id" Association="Self.FK_Usuario_Rol_id">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
           <AssociationSet Name="FK_Vehiculo_Tipo_id" Association="Self.FK_Vehiculo_Tipo_id">
             <End Role="Tipo" EntitySet="Tipo" />
             <End Role="Vehiculo" EntitySet="Vehiculo" />
@@ -93,24 +171,45 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Concesionario15ModelStoreContainer" CdmEntityContainer="Concesionario15Entities">
+        <EntityContainerMapping StorageEntityContainer="concesionarioModelStoreContainer" CdmEntityContainer="ConcesionarioEntities">
+          <EntitySetMapping Name="Rol">
+            <EntityTypeMapping TypeName="concesionarioModel.Rol">
+              <MappingFragment StoreEntitySet="Rol">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Tipo">
-            <EntityTypeMapping TypeName="Concesionario15Model.Tipo">
+            <EntityTypeMapping TypeName="concesionarioModel.Tipo">
               <MappingFragment StoreEntitySet="Tipo">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="concesionarioModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="imagen" ColumnName="imagen" />
+                <ScalarProperty Name="idRol" ColumnName="idRol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Vehiculo">
-            <EntityTypeMapping TypeName="Concesionario15Model.Vehiculo">
+            <EntityTypeMapping TypeName="concesionarioModel.Vehiculo">
               <MappingFragment StoreEntitySet="Vehiculo">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="matricula" ColumnName="matricula" />
                 <ScalarProperty Name="marca" ColumnName="marca" />
                 <ScalarProperty Name="modelo" ColumnName="modelo" />
                 <ScalarProperty Name="coste" ColumnName="coste" />
-                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="idTipo" ColumnName="idTipo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

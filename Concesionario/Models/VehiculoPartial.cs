@@ -30,6 +30,6 @@ namespace Concesionario.Models
 
         [Required]
         [DisplayName("Tipo")]
-        public int tipo { get; set; }
+        public int idTipo { get; set; }
     }
 }

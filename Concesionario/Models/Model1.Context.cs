@@ -13,10 +13,10 @@ namespace Concesionario.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class Concesionario15Entities : DbContext
+    public partial class ConcesionarioEntities : DbContext
     {
-        public Concesionario15Entities()
-            : base("name=Concesionario15Entities")
+        public ConcesionarioEntities()
+            : base("name=ConcesionarioEntities")
         {
         }
     
@@ -25,7 +25,9 @@ namespace Concesionario.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Rol> Rol { get; set; }
         public virtual DbSet<Tipo> Tipo { get; set; }
+        public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<Vehiculo> Vehiculo { get; set; }
     }
 }

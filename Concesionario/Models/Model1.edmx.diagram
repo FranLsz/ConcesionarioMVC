@@ -4,10 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f6022941e6c743b699410c5479c2108f" Name="Diagram1">
-        <EntityTypeShape EntityType="Concesionario15Model.Tipo" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Concesionario15Model.Vehiculo" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <AssociationConnector Association="Concesionario15Model.FK_Vehiculo_Tipo_id" ManuallyRouted="false" />
+      <Diagram DiagramId="f1f9b19831594d058ef3f25c7ee451cd" Name="Diagram1">
+        <EntityTypeShape EntityType="concesionarioModel.Rol" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="concesionarioModel.Tipo" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="concesionarioModel.Usuario" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="concesionarioModel.Vehiculo" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="concesionarioModel.FK_Usuario_Rol_id" ManuallyRouted="false" />
+        <AssociationConnector Association="concesionarioModel.FK_Vehiculo_Tipo_id" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
