@@ -30,15 +30,44 @@ namespace Concesionario.Controllers
                 FormsAuthentication.RedirectFromLoginPage(model.username, false);
                 return null;
             }
-
             return View(model);
         }
 
         public ActionResult LogOut()
         {
-
             FormsAuthentication.SignOut();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Registro()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Registro(Usuario model)
+        {
+            //TEMPORAL
+            using (var db = new ConcesionarioEntities())
+            {
+                var clave = ConfigurationManager.AppSettings["ClaveCifrado"];
+
+                model.email = SeguridadUtilidades.Cifrar(model.email, clave);
+
+                model.password = SeguridadUtilidades.GetSha1(model.password);
+                try
+                {
+                    db.Usuario.Add(model);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", model);
+                }
+                catch (Exception e)
+                {
+                    return View(model);
+                }
+            }
+
+            return View(model);
         }
     }
 }

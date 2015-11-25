@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
@@ -14,6 +15,13 @@ namespace Concesionario.Seguridad
             bool isApproved, object providerUserKey, out MembershipCreateStatus status)
         {
             throw new NotImplementedException();
+        }
+
+        public MembershipUser CreateUser(Usuario model)
+        {
+            
+
+            return new UsuarioMembership(model);
         }
 
         public override bool ChangePasswordQuestionAndAnswer(string username, string password, string newPasswordQuestion,
