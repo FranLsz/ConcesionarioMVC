@@ -9,6 +9,8 @@ using Concesionario.Utilidades;
 
 namespace Concesionario.Seguridad
 {
+    //enlaza el principal con el membership provider
+    //es el intermediario entre el identity y entity framework
     public class UsuarioMembership : MembershipUser
     {
         public int id { get; set; }

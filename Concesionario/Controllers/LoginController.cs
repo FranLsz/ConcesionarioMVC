@@ -27,6 +27,11 @@ namespace Concesionario.Controllers
         {
             if (Membership.ValidateUser(model.username, model.password))
             {
+                //se llama una vez y se borra
+                TempData["miVar"] = DateTime.Now;
+
+
+                Session["horaLogin"] = DateTime.Now;
                 FormsAuthentication.RedirectFromLoginPage(model.username, false);
                 return null;
             }
